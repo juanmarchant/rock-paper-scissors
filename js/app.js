@@ -20,9 +20,6 @@ function getHumanChoice() {
     return promptChoice;
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-
 function playRound(humanSelection, computerSelection) {
 
     if (humanSelection != computerSelection) {
@@ -56,11 +53,25 @@ function playRound(humanSelection, computerSelection) {
     } else {
         console.log('Draw!');
     }
-    console.log(humanScore, computerScore);
-    console.log(`Human : ${humanSelection} -  Computer : ${computerSelection}`);
-
+    console.log(`\t\tSCORE\nHUMAN : ${humanScore} --- COMPUTER : ${computerScore}\n*******THE CHOICES**********\nHuman : ${humanSelection} -  Computer : ${computerSelection}`)
+    return;
 }
 
-while (true) {
+function playGame() {
+    const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
     playRound(humanSelection, computerSelection);
+}
+
+let n = 1
+while (n <= 5) {
+    playGame();
+    n++;
+}
+
+
+if (computerScore > humanScore) {
+    console.log('THE COMPUTER WONS!!')
+} else {
+    console.log('U WON !!')
 }
