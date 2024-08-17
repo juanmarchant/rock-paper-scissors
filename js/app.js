@@ -6,18 +6,14 @@ function getComputerChoice() {
     return array[Math.floor(Math.random() * 3)]
 }
 
-function getHumanChoice() {
-    let promptChoice = ''
+function getHumanChoice(value) {
 
-    while (true) {
-        if (promptChoice != 'rock' && promptChoice != 'paper' && promptChoice != 'scissors') {
-            promptChoice = prompt('Choose \nRock | Paper | Scissors').toLowerCase();
-        } else {
-            break;
-        }
+
+    if (value.toLowerCase() != 'rock' && value.toLowerCase() != 'paper' && value.toLowerCase() != 'scissors') {
+        alert('Choose \nRock | Paper | Scissors');
+    } else {
+        return value.toLowerCase();
     }
-
-    return promptChoice;
 }
 
 function playRound(humanSelection, computerSelection) {
@@ -53,25 +49,85 @@ function playRound(humanSelection, computerSelection) {
     } else {
         console.log('Draw!');
     }
-    console.log(`\t\tSCORE\nHUMAN : ${humanScore} --- COMPUTER : ${computerScore}\n*******THE CHOICES**********\nHuman : ${humanSelection} -  Computer : ${computerSelection}`)
     return;
 }
 
-function playGame() {
-    const humanSelection = getHumanChoice();
+function playGame(value) {
+    const humanSelection = getHumanChoice(value);
     const computerSelection = getComputerChoice();
+    updateSelection(humanSelection.toLowerCase(), computerSelection.toLowerCase());
     playRound(humanSelection, computerSelection);
 }
 
-let n = 1
-while (n <= 5) {
-    playGame();
-    n++;
+
+
+function updateSelection(human, computer) {
+    const humanSelecion = document.querySelector('#humanSelection');
+    const computerSelection = document.querySelector('#computerSelection');
+
+    humanSelecion.src = `/img/${human}.png`
+    computerSelection.src = `/img/${computer}.png`
+
+
+}
+function updateScore() {
+    const scoreHuman = document.querySelector('#scoreHuman');
+    const scoreComputer = document.querySelector('#scoreComputer');
+
+    scoreHuman.textContent = humanScore;
+    scoreComputer.textContent = computerScore;
+
+    showWinner();
+}
+
+function showWinner() {
+
+    const winner = document.querySelector('#winner');
+    const humanSelecion = document.querySelector('#humanSelection');
+    const computerSelection = document.querySelector('#computerSelection');
+
+
+    if (computerScore >= 5 || humanScore >= 5) {
+
+        if (computerScore > humanScore) {
+            winner.textContent = 'COMPUTER WINS!'
+        } else {
+            winner.textContent = 'U WIN!'
+        }
+
+        humanScore = 0
+        computerScore = 0
+        humanSelecion.src = '/img/question.png'
+        computerSelection.src = '/img/question.png'
+        updateScore();
+
+        setTimeout(() => {
+            winner.textContent = ''
+        }, 1000);
+    }
 }
 
 
-if (computerScore > humanScore) {
-    console.log('THE COMPUTER WONS!!')
-} else {
-    console.log('U WON !!')
-}
+
+
+
+const rockBtn = document.querySelector('#rockBtn');
+const paperBtn = document.querySelector('#paperBtn');
+const scissorsBtn = document.querySelector('#scissorsBtn');
+
+rockBtn.addEventListener('click', () => {
+    playGame(rockBtn.textContent)
+    updateScore();
+});
+
+paperBtn.addEventListener('click', () => {
+    playGame(paperBtn.textContent)
+    updateScore();
+});
+
+scissorsBtn.addEventListener('click', () => {
+    playGame(scissorsBtn.textContent)
+    updateScore();
+});
+
+
